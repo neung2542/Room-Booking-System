@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask import current_app as app
 from models import db, User, Room, Booking
 from services import UserService, RoomService, BookingService
@@ -167,6 +167,13 @@ def get_bookings():
         return handle_error(str(e), 404)
     except Exception as e:
         return handle_error(f"Internal server error {e}", 500)
+
+@app.route('/', methods=['GET'])
+def index():
+    users = User.query.all()
+    rooms = Room.query.all()
+    bookings = Booking.query.all()
+    return render_template('index.html', users=users, rooms=rooms, bookings=bookings)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
