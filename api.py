@@ -1,21 +1,22 @@
 from flask import Flask, request, jsonify
+from flask import current_app as app
 from models import db, User, Room, Booking
 from services import UserService, RoomService, BookingService
 from datetime import datetime
-from config import DATABASE_URL
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-# Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# # Database configuration
+# app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize database
-db.init_app(app)
+# # Initialize database
+# db.init_app(app)
 
-# Create tables
-with app.app_context():
-    db.create_all()
+# # Create tables
+# with app.app_context():
+#     db.create_all()
+# app = create_app()
 
 # Error handler
 def handle_error(error_message, status_code=400):
@@ -165,7 +166,7 @@ def get_bookings():
     except ValueError as e:
         return handle_error(str(e), 404)
     except Exception as e:
-        return handle_error("Internal server error", 500)
+        return handle_error(f"Internal server error {e}", 500)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
