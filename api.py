@@ -2,11 +2,12 @@ from flask import Flask, request, jsonify
 from models import db, User, Room, Booking
 from services import UserService, RoomService, BookingService
 from datetime import datetime
+from config import DATABASE_URL
 
 app = Flask(__name__)
 
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meeting_room.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize database
